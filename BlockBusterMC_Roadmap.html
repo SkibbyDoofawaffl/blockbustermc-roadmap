@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BlockBusterMC Roadmap</title>
+  <style>
+    :root{
+      --bg:#0b0d12; --card:#121623; --muted:#8b93a7; --text:#e9ecf5;
+      --border:#242b3f; --accent:#7aa2ff; --good:#38d39f; --warn:#ffcf5a;
+      --bad:#ff6b6b; --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius:16px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family:var(--sans);
+      background:
+        radial-gradient(1200px 700px at 20% 0%, #182044 0%, rgba(24,32,68,0) 60%),
+        radial-gradient(900px 600px at 90% 10%, #1a3a31 0%, rgba(26,58,49,0) 55%),
+        var(--bg);
+      color:var(--text);
+    }
+    header{
+      position:sticky; top:0; z-index:10;
+      background: linear-gradient(180deg, rgba(11,13,18,.95), rgba(11,13,18,.75));
+      backdrop-filter: blur(8px);
+      border-bottom:1px solid var(--border);
+    }
+    .wrap{max-width:1100px; margin:0 auto; padding:18px 16px;}
+    .top{
+      display:flex; gap:14px; align-items:flex-start; justify-content:space-between; flex-wrap:wrap;
+    }
+    h1{margin:0; font-size:22px; letter-spacing:.2px;}
+    .sub{color:var(--muted); margin-top:4px; font-size:13px;}
+    .controls{
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:flex-end;
+    }
+    .pill{
+      display:flex; align-items:center; gap:8px;
+      background: rgba(18,22,35,.75);
+      border:1px solid var(--border);
+      padding:10px 12px;
+      border-radius:999px;
+      box-shadow: var(--shadow);
+    }
+    input[type="search"]{
+      width:min(360px, 70vw);
+      background: transparent; border:0; outline:0; color:var(--text);
+      font-size:14px;
+    }
+    .btn{
+      cursor:pointer; user-select:none;
+      background: rgba(18,22,35,.75);
+      border:1px solid var(--border);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:999px;
+      box-shadow: var(--shadow);
+      transition: transform .08s ease, border-color .15s ease;
+      font-size:13px;
+    }
+    .btn:hover{border-color:#36405c}
+    .btn:active{transform: translateY(1px)}
+    main .wrap{padding-top:14px; padding-bottom:44px;}
+    .summary{
+      display:grid; grid-template-columns: 1.2fr .8fr; gap:12px;
+      margin-bottom:14px;
+    }
+    @media (max-width:850px){ .summary{grid-template-columns:1fr;}}
+    .card{
+      background: linear-gradient(180deg, rgba(18,22,35,.92), rgba(18,22,35,.70));
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding:14px;
+    }
+    .row{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+    .kpi{
+      display:flex; gap:16px; flex-wrap:wrap; align-items:center;
+      font-size:13px; color:var(--muted);
+    }
+    .kpi b{color:var(--text); font-weight:700}
+    .progress{
+      height:10px; background:#0f1320; border:1px solid var(--border);
+      border-radius:999px; overflow:hidden;
+    }
+    .bar{
+      height:100%;
+      background: linear-gradient(90deg, var(--accent), var(--good));
+      width:0%;
+      transition: width .25s ease;
+    }
+    .tiny{font-size:12px; color:var(--muted)}
+    .sections{
+      display:flex; flex-direction:column; gap:12px;
+    }
+    details{
+      background: linear-gradient(180deg, rgba(18,22,35,.92), rgba(18,22,35,.70));
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    summary{
+      list-style:none;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 14px;
+      cursor:pointer; user-select:none;
+      gap:14px;
+    }
+    summary::-webkit-details-marker{display:none}
+    .secTitle{
+      display:flex; flex-direction:column; gap:2px;
+      min-width: 240px;
+    }
+    .secTitle .name{font-weight:800}
+    .secTitle .desc{color:var(--muted); font-size:12px}
+    .secRight{
+      display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:flex-end;
+    }
+    .badge{
+      font-family:var(--mono);
+      font-size:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background: rgba(15,19,32,.75);
+      color: var(--text);
+    }
+    .secProg{
+      width: 220px; max-width: 55vw;
+    }
+    .content{
+      border-top:1px solid var(--border);
+      padding: 12px 14px 14px;
+    }
+    .task{
+      display:flex; align-items:flex-start; gap:10px;
+      padding:10px 10px;
+      border-radius: 12px;
+      border:1px solid transparent;
+      transition: border-color .12s ease, background .12s ease;
+    }
+    .task:hover{
+      border-color: #2c3550;
+      background: rgba(15,19,32,.35);
+    }
+    .task input{margin-top:2px; transform: scale(1.15);}
+    .task .meta{flex:1;}
+    .task .title{font-weight:700; line-height:1.25}
+    .task .note{color:var(--muted); font-size:12px; margin-top:4px}
+    .chips{display:flex; gap:6px; flex-wrap:wrap; margin-top:6px}
+    .chip{
+      font-size:11px; color:var(--text);
+      padding:4px 8px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background: rgba(15,19,32,.65);
+    }
+    .chip.high{border-color: rgba(255,107,107,.45)}
+    .chip.med{border-color: rgba(255,207,90,.45)}
+    .chip.low{border-color: rgba(56,211,159,.35)}
+    .task.done .title{ text-decoration: line-through; color: #a6afc8;}
+    .task.done{ opacity:.85;}
+    .footerHint{
+      margin-top:10px;
+      font-size:12px; color:var(--muted);
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <h1 id="roadmapTitle">BlockBusterMC Roadmap</h1>
+        <div class="sub" id="roadmapSubtitle">Check off tasks — progress saves automatically. (Ordered by execution)</div>
+      </div>
+
+      <div class="controls">
+        <div class="pill">
+          🔍 <input id="search" type="search" placeholder="Search tasks / notes / tags…" />
+        </div>
+        <button class="btn" id="expandAll">Expand all</button>
+        <button class="btn" id="collapseAll">Collapse all</button>
+        <button class="btn" id="reset">Reset progress</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="summary">
+      <div class="card">
+        <div class="row">
+          <div>
+            <div style="font-weight:800; font-size:14px;">Overall Progress</div>
+            <div class="tiny" id="overallText">0 / 0 completed</div>
+          </div>
+          <div class="kpi">
+            <span><b id="pct">0%</b> complete</span>
+            <span>•</span>
+            <span><b id="remaining">0</b> remaining</span>
+          </div>
+        </div>
+        <div style="height:10px"></div>
+        <div class="progress"><div class="bar" id="overallBar"></div></div>
+        <div class="footerHint">
+          Progress is saved in your browser for this file (localStorage).
+        </div>
+      </div>
+
+      <div class="card">
+        <div style="font-weight:800; font-size:14px;">Quick Filters</div>
+        <div style="height:10px"></div>
+        <div class="row" style="justify-content:flex-start; gap:8px;">
+          <button class="btn" id="showAll">Show all</button>
+          <button class="btn" id="showIncomplete">Incomplete only</button>
+          <button class="btn" id="showComplete">Completed only</button>
+        </div>
+        <div style="height:12px"></div>
+        <div class="tiny">
+          Edit tasks anytime inside <span class="badge">ROADMAP_DATA</span>. Keep IDs stable to preserve checkmarks.
+        </div>
+      </div>
+    </div>
+
+    <div class="sections" id="sections"></div>
+  </div>
+</main>
+
+<script>
+const ROADMAP_DATA = {
+  title: "BlockBusterMC Roadmap",
+  subtitle: "Check off tasks — progress saves automatically. (Ordered by execution)",
+  sections: [
+    {
+      id: "main",
+      title: "Main Roadmap",
+      description: "Tasks in the exact order they need to be completed",
+      tasks: [
+        {
+          id: "bb-001-add-new-toolskins-levels",
+          text: "Add New Toolskins for Levels Plugin",
+          note: "Create/import toolskin assets, register them, and ensure they display correctly in menus/rewards.",
+          tags: ["levels", "cosmetics"],
+          priority: "med"
+        },
+        {
+          id: "bb-002-complete-levels-plugin",
+          text: "Complete Levels Plugin (Rewards and Lore)",
+          note: "Finalize reward tables, lore formatting, scaling, and any missing placeholders/menus.",
+          tags: ["levels", "rewards"],
+          priority: "high"
+        },
+        {
+          id: "bb-003-social-accounts",
+          text: "BlockBuster Social Accounts",
+          note: "Create/finish profiles, branding, links, and consistent naming across platforms.",
+          tags: ["branding", "community"],
+          priority: "med"
+        },
+        {
+          id: "bb-004-dungeons-overhaul",
+          text: "Dungeons Overhaul",
+          note: "Review dungeon flow, difficulty curves, loot pacing, and QoL changes.",
+          tags: ["dungeons", "gameplay"],
+          priority: "high"
+        },
+        {
+          id: "bb-005-dungeon-crate-overhaul",
+          text: "Dungeon Crate Overhaul",
+          note: "Update crate pools, odds, preview menus, and reward balance for dungeon crates.",
+          tags: ["crates", "dungeons"],
+          priority: "high"
+        },
+        {
+          id: "bb-006-slayer-dungeons",
+          text: "Slayer Dungeons",
+          note: "Implement slayer dungeon content: mobs, scaling, rewards, and completion tracking.",
+          tags: ["dungeons", "combat"],
+          priority: "high"
+        },
+        {
+          id: "bb-007-resource-dungeons",
+          text: "Resource Dungeons",
+          note: "Build resource-focused dungeons: nodes/regen rules, anti-abuse, and reward integration.",
+          tags: ["dungeons", "resources"],
+          priority: "med"
+        },
+        {
+          id: "bb-008-finish-next-3-crates",
+          text: "Finish Next 3 Crates",
+          note: "Complete setup: icons, preview menus, reward tables, keys, and announcements.",
+          tags: ["crates"],
+          priority: "high"
+        },
+        {
+          id: "bb-009-patron-progress-rewards",
+          text: "Implement Patron Progress/Rewards",
+          note: "Define tiers, progress tracking, perks, and how players earn/advance patron benefits.",
+          tags: ["patron", "progression"],
+          priority: "high"
+        },
+        {
+          id: "bb-010-fishing-overhaul",
+          text: "Fishing Overhaul (Level requirements/new areas)",
+          note: "Add level gates, new fishing zones/areas, loot tables, and progression hooks.",
+          tags: ["fishing", "progression"],
+          priority: "med"
+        },
+        {
+          id: "bb-011-pvp-shop",
+          text: "Add PVP Shop",
+          note: "Create shop UI + economy hooks; decide currency, pricing, and unlock rules.",
+          tags: ["pvp", "economy"],
+          priority: "med"
+        },
+        {
+          id: "bb-012-auto-patron-rewards-plugin",
+          text: "Automatic Patron Reward Distrubution Plugin",
+          note: "Automate patron rewards: schedule, eligibility checks, logging, and fail-safes.",
+          tags: ["patron", "automation", "plugin"],
+          priority: "high"
+        }
+      ]
+    }
+  ]
+};
+
+const STORAGE_KEY = "roadmap_state_blockbustermc_v1";
+
+let state = {
+  completed: {}, // taskId -> true
+  filter: "all", // all | complete | incomplete
+  query: ""
+};
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return;
+    const parsed = JSON.parse(raw);
+    if(parsed && typeof parsed === "object"){
+      state = { ...state, ...parsed, completed: parsed.completed || {} };
+    }
+  }catch(e){}
+}
+
+function saveState(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+function $(id){ return document.getElementById(id); }
+
+function normalize(str){
+  return (str || "").toLowerCase().trim();
+}
+
+function matchesFilter(task, isDone){
+  if(state.filter === "all") return true;
+  if(state.filter === "complete") return !!isDone;
+  if(state.filter === "incomplete") return !isDone;
+  return true;
+}
+
+function matchesQuery(task){
+  const q = normalize(state.query);
+  if(!q) return true;
+  const hay = normalize([task.text, task.note, ...(task.tags||[]), task.priority].join(" "));
+  return hay.includes(q);
+}
+
+function computeTotals(){
+  let total = 0, done = 0;
+  for(const sec of ROADMAP_DATA.sections){
+    for(const t of sec.tasks){
+      total++;
+      if(state.completed[t.id]) done++;
+    }
+  }
+  return { total, done, remaining: total - done, pct: total ? Math.round((done/total)*100) : 0 };
+}
+
+function computeSection(sec){
+  const total = sec.tasks.length;
+  const done = sec.tasks.filter(t => state.completed[t.id]).length;
+  const pct = total ? Math.round((done/total)*100) : 0;
+  return { total, done, pct };
+}
+
+function render(){
+  $("roadmapTitle").textContent = ROADMAP_DATA.title || "Interactive Roadmap";
+  $("roadmapSubtitle").textContent = ROADMAP_DATA.subtitle || "Check off tasks — progress saves automatically.";
+
+  const totals = computeTotals();
+  $("overallText").textContent = `${totals.done} / ${totals.total} completed`;
+  $("pct").textContent = `${totals.pct}%`;
+  $("remaining").textContent = `${totals.remaining}`;
+  $("overallBar").style.width = `${totals.pct}%`;
+
+  const root = $("sections");
+  root.innerHTML = "";
+
+  for(const sec of ROADMAP_DATA.sections){
+    const secStats = computeSection(sec);
+
+    const details = document.createElement("details");
+    details.open = true;
+
+    const summary = document.createElement("summary");
+
+    const left = document.createElement("div");
+    left.className = "secTitle";
+    left.innerHTML = `<div class="name">${sec.title}</div><div class="desc">${sec.description || ""}</div>`;
+
+    const right = document.createElement("div");
+    right.className = "secRight";
+
+    const badge = document.createElement("div");
+    badge.className = "badge";
+    badge.textContent = `${secStats.done}/${secStats.total}`;
+
+    const progWrap = document.createElement("div");
+    progWrap.className = "secProg";
+    progWrap.innerHTML = `<div class="progress"><div class="bar" style="width:${secStats.pct}%"></div></div>`;
+
+    const pct = document.createElement("div");
+    pct.className = "badge";
+    pct.textContent = `${secStats.pct}%`;
+
+    right.appendChild(badge);
+    right.appendChild(progWrap);
+    right.appendChild(pct);
+
+    summary.appendChild(left);
+    summary.appendChild(right);
+
+    const content = document.createElement("div");
+    content.className = "content";
+
+    let visibleCount = 0;
+
+    for(const task of sec.tasks){
+      const isDone = !!state.completed[task.id];
+      if(!matchesFilter(task, isDone)) continue;
+      if(!matchesQuery(task)) continue;
+
+      visibleCount++;
+
+      const row = document.createElement("label");
+      row.className = "task" + (isDone ? " done" : "");
+      row.setAttribute("data-task-id", task.id);
+
+      const cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.checked = isDone;
+      cb.addEventListener("change", () => {
+        if(cb.checked) state.completed[task.id] = true;
+        else delete state.completed[task.id];
+        saveState();
+        render();
+      });
+
+      const meta = document.createElement("div");
+      meta.className = "meta";
+
+      const title = document.createElement("div");
+      title.className = "title";
+      title.textContent = task.text;
+
+      const note = document.createElement("div");
+      note.className = "note";
+      note.textContent = task.note || "";
+
+      const chips = document.createElement("div");
+      chips.className = "chips";
+
+      if(task.priority){
+        const c = document.createElement("span");
+        const p = normalize(task.priority);
+        c.className = "chip " + (p === "high" ? "high" : p === "med" ? "med" : "low");
+        c.textContent = `priority:${p}`;
+        chips.appendChild(c);
+      }
+      for(const tag of (task.tags || [])){
+        const c = document.createElement("span");
+        c.className = "chip";
+        c.textContent = `#${tag}`;
+        chips.appendChild(c);
+      }
+
+      meta.appendChild(title);
+      if(task.note) meta.appendChild(note);
+      if(chips.childNodes.length) meta.appendChild(chips);
+
+      row.appendChild(cb);
+      row.appendChild(meta);
+      content.appendChild(row);
+    }
+
+    if(visibleCount === 0){
+      const empty = document.createElement("div");
+      empty.className = "tiny";
+      empty.innerHTML = `No tasks match your current filters/search in <b>${sec.title}</b>.`;
+      content.appendChild(empty);
+    }
+
+    details.appendChild(summary);
+    details.appendChild(content);
+    root.appendChild(details);
+  }
+}
+
+function setFilter(f){
+  state.filter = f;
+  saveState();
+  render();
+}
+
+function setQuery(q){
+  state.query = q;
+  saveState();
+  render();
+}
+
+function setAllDetails(open){
+  document.querySelectorAll("details").forEach(d => d.open = open);
+}
+
+function resetProgress(){
+  const ok = confirm("Reset all checkmarks? This cannot be undone.");
+  if(!ok) return;
+  state.completed = {};
+  saveState();
+  render();
+}
+
+loadState();
+
+$("search").value = state.query || "";
+$("search").addEventListener("input", (e) => setQuery(e.target.value));
+
+document.getElementById("showAll").addEventListener("click", () => setFilter("all"));
+document.getElementById("showIncomplete").addEventListener("click", () => setFilter("incomplete"));
+document.getElementById("showComplete").addEventListener("click", () => setFilter("complete"));
+
+document.getElementById("expandAll").addEventListener("click", () => setAllDetails(true));
+document.getElementById("collapseAll").addEventListener("click", () => setAllDetails(false));
+document.getElementById("reset").addEventListener("click", resetProgress);
+
+render();
+</script>
+</body>
+</html>
